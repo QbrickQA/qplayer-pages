@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qbrick Player Baseline – Beta (DIV)</title>
 
+    <style>
+        body {
+            margin: 0; padding: 0; background: #f2f2f2;
+            font-family: sans-serif;
+        }
+        .container {
+            max-width: 900px; margin: 20px auto; padding: 10px;
+            background: #fff; border-radius: 6px;
+        }
+        .player-box {
+            position: relative;
+            padding-bottom: 56.25%;
+        }
+        .player-box > div {
+            position: absolute;
+            top: 0; left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Beta – DIV Embed Baseline</h2>
+
+        <div class="player-box">
+            <div
+                title="Substitute Language + Audio Description + Subtitles + Closed Captions"
+                data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+                data-qplayer-media-id="6744c3eb-d375-475f-93d8-615017b05fbb"
+                data-qplayer-preset-id="Enterprise">
+            </div>
+
+            <script id="qplayer" src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.min.js"></script>
+        </div>
+    </div>
+
+    <script>
+        console.info("Baseline loaded: Beta DIV");
+    </script>
+</body>
+</html>
