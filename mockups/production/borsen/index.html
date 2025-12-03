@@ -71,12 +71,12 @@
             padding: 15px;
             border: 1px solid #eee;
             border-radius: 5px;
-            display: flex;
-            flex-wrap: wrap;
         }
-        .article-text {
-            flex: 1;
-            min-width: 0; /* Prevent overflow */
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
         }
         .article-date {
             font-size: 0.8em;
@@ -84,20 +84,19 @@
             margin-bottom: 5px;
         }
         .article-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin: 0;
         }
         .article-snippet {
             font-size: 0.9em;
             color: #666;
         }
         .article-img {
-            width: 100px;
+            width: 80px;
             height: auto;
-            margin-left: 15px;
-            border-radius: 5px;
-            align-self: flex-start; /* Align to top right */
+            margin-left: 10px;
+            border-radius: 3px;
         }
         .sidebar {
             flex: 1.5; /* Made wider for better player fit */
@@ -253,12 +252,12 @@
         <div class="main-content">
             <!-- Fake articles in English lolcat -->
             <div class="article">
-                <div class="article-text">
-                    <div class="article-date">06:37 MARKET CONDITIONS</div>
+                <div class="article-date">06:37 MARKET CONDITIONS</div>  <!-- Keep date above -->
+                <div class="article-header">  <!-- New div for alignment -->
                     <h2 class="article-title">Stokz in Asia: Wall Stret wipz awai asian feerz frum bord</h2>
-                    <p class="article-snippet">Oh hai, wall street iz liek "no worriez" an wipes da fearz. I can has stok rise? Yes plz!</p>
+                    <img class="article-img" src="./img/article_1.png" alt="Mock image">
                 </div>
-                <img class="article-img" src="./img/article_1.png" alt="Mock image">
+                <p class="article-snippet">Oh hai, wall street iz liek "no worriez" an wipes da fearz. I can has stok rise? Yes plz!</p>  <!-- Snippet below -->
             </div>
             <div class="article">
                 <div class="article-text">
