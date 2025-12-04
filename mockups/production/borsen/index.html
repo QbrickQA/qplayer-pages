@@ -225,6 +225,20 @@
                 margin-top: 10px;
                 width: 100%; /* Full width on mobile */
             }
+            .flex.mt-4[style*="padding-top"] {
+            padding-top: 0 !important;
+            height: auto !important;
+            }
+            .flex.mt-4 > div[id^="qbrick-player"] {
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            }
+            .flex.mt-4 iframe {
+            width: 100% !important;
+            height: auto !important;
+            position: static !important;
+          }
         }
     </style>
 </head>
