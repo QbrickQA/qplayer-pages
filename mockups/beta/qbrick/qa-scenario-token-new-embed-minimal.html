@@ -32,18 +32,27 @@
 
   </main>
 
-  <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
-  <script src="https://play2.qbrick.com/qplayer-beta/qplayer.min.js"></script>
-  <script>
-    window.onload = () => {
-      const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319";
-      const expirationDate = new Date(Date.now() + 300000).toISOString(); // 5 min
-      const password = "sk-"; const currentIP = ""; const accountId = "";
-      const unsignedToken = expirationDate + '|' + currentIP + '|' + accountId;
-      const token = window.MD5.hash(unsignedToken, password + scenarioId) + '.' + window.MD5.toHex(unsignedToken);
-      const th = document.getElementById("token-holder"); if (th) th.setAttribute("data-qplayer-token", token + "-scenario-" + scenarioId);
-      window.QplayerLoader.initiateInteractivePlayer?.();
-    };
-  </script>
+<script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
+<script src="https://play2.qbrick.com/qplayer-beta/qplayer.min.js" defer></script>
+<script>
+  window.addEventListener("load", () => {
+    const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319";
+    const expirationDate = new Date(Date.now() + 300000).toISOString(); // 5 min
+    const password = "sk-";
+    const currentIP = "";
+    const accountId = "";
+
+    const unsignedToken = expirationDate + "|" + currentIP + "|" + accountId;
+    const token =
+      window.MD5.hash(unsignedToken, password + scenarioId) +
+      "." +
+      window.MD5.toHex(unsignedToken);
+
+    const embed = document.querySelector('qplayer-embed[data-qplayer-id="tokenTest1234"]');
+    if (embed) embed.setAttribute("data-qplayer-token", token + "-scenario-" + scenarioId);
+
+    window.QplayerLoader?.initiateInteractivePlayer?.();
+  });
+</script>
 </body>
 </html>
