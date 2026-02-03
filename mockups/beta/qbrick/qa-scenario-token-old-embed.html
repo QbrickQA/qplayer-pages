@@ -12,6 +12,34 @@
     .qbrick-scenario-player__element>*,.qbrick-scenario-player__element iframe,.qbrick-scenario-player__element video,.qbrick-scenario-player__element div{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;}
     .qbrick-scenario-player__element [style*="width"],.qbrick-scenario-player__element [style*="height"]{width:100%!important;height:100%!important;}
   </style>
+  <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
+
+    <!-- QPlayer loader -->
+    <script id="qplayer" src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = () => {
+            const mediaId = "restricted-media-id"; // ID of restricted media
+            const expirationDate = new Date(+new Date() + 300000).toISOString();
+            const password = "password-for-media";
+            const currentIP = ""; // Get user current IP if needed
+            const unsignedToken = expirationDate + '|' + currentIP + '|' + "your-account-id";
+            const token = window.MD5.hash(unsignedToken, password) + '.' + window.MD5.toHex(unsignedToken);
+
+            const tokenHolder = document.getElementById("token-holder");
+
+            // "data-qplayer-token" has value:
+            // - For media: `{token}-media-{mediaId}`
+            // - For scenario: `{token}-scenario-{scenarioId}`
+            if (tokenHolder) {
+                tokenHolder.setAttribute("data-qplayer-token", token + "-media-" + mediaId)
+            }
+
+            // To create player
+            window.QplayerLoader.initiateInteractivePlayer?.();
+            // Call window.QplayerLoader.killInteractivePlayer?.() to kill player if needed
+        }
+    </script>
 </head>
 <body>
   <header><h1>Scenario B — Beta (dev, restricted)</h1></header>
@@ -32,18 +60,5 @@
       </div>
     </div>
   </main>
-
-  <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
-  <script src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.js"></script>
-  <script>
-    window.onload = () => {
-      const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319";
-      const expirationDate = new Date(Date.now() + 300000).toISOString();
-      const password = "sk-"; const unsignedToken = expirationDate + '||';
-      const token = window.MD5.hash(unsignedToken, password + scenarioId) + '.' + window.MD5.toHex(unsignedToken);
-      document.getElementById("token-holder")?.setAttribute("data-qplayer-token", token + "-scenario-" + scenarioId);
-      window.QplayerLoader?.initiateInteractivePlayer?.();
-    };
-  </script>
 </body>
 </html>
