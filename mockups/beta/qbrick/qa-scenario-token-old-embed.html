@@ -18,11 +18,11 @@
 
     <script type="text/javascript">
         window.onload = () => {
-            const mediaId = "restricted-media-id"; // ID of restricted media
+            const scenarioId = "restricted-media-id"; // ID of restricted media
             const expirationDate = new Date(+new Date() + 300000).toISOString();
-            const password = "password-for-media";
+            const password = "sk-";
             const currentIP = ""; // Get user current IP if needed
-            const unsignedToken = expirationDate + '|' + currentIP + '|' + "your-account-id";
+            const unsignedToken = expirationDate + '|' + currentIP + '|' + "AccNqtD2CsWD0Su3cmykHVzZQ";
             const token = window.MD5.hash(unsignedToken, password) + '.' + window.MD5.toHex(unsignedToken);
 
             const tokenHolder = document.getElementById("token-holder");
@@ -31,7 +31,7 @@
             // - For media: `{token}-media-{mediaId}`
             // - For scenario: `{token}-scenario-{scenarioId}`
             if (tokenHolder) {
-                tokenHolder.setAttribute("data-qplayer-token", token + "-media-" + mediaId)
+                tokenHolder.setAttribute("data-qplayer-token", token + "-scenario-" + mediaId)
             }
 
             // To create player
