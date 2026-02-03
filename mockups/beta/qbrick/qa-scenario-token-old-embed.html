@@ -1,0 +1,48 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scenario B — Beta (dev, restricted)</title>
+  <style>
+    :root { color-scheme: light dark; } body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:Canvas; color:CanvasText; }
+    header{padding:14px 16px;} .frame{padding:0 16px 24px;}
+    .ratio{position:relative;width:100%;max-width:1200px;margin:0 auto;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:clip;}
+    .qbrick-scenario-player__element{position:absolute;inset:0;width:100%;height:100%;}
+    .qbrick-scenario-player__element>*,.qbrick-scenario-player__element iframe,.qbrick-scenario-player__element video,.qbrick-scenario-player__element div{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;}
+    .qbrick-scenario-player__element [style*="width"],.qbrick-scenario-player__element [style*="height"]{width:100%!important;height:100%!important;}
+  </style>
+</head>
+<body>
+  <header><h1>Scenario B — Beta (dev, restricted)</h1></header>
+  <main class="frame">
+    <div class="ratio">
+      <div class="qbrick-scenario-player__element" id="qplayer"
+        data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+        data-qplayer-scenario-id="5be4bb86-ba2d-4812-a06c-79350375a319"
+        data-qplayer-preset-id="Kruso_Interactive"
+        data-qplayer-beta="true"
+        data-qplayer-inline="on"
+        data-qplayer-id="scenario-b-beta-dev"
+        data-qplayer-autoplay="false"
+        data-qplayer-thumbnail-media-id="698d7b31-f733-43ac-9541-d2b77903accf"
+        data-qplayer-language="dk">
+        <span id="token-holder"></span>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
+  <script src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.js"></script>
+  <script>
+    window.onload = () => {
+      const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319";
+      const expirationDate = new Date(Date.now() + 300000).toISOString();
+      const password = "sk-"; const unsignedToken = expirationDate + '||';
+      const token = window.MD5.hash(unsignedToken, password + scenarioId) + '.' + window.MD5.toHex(unsignedToken);
+      document.getElementById("token-holder")?.setAttribute("data-qplayer-token", token + "-scenario-" + scenarioId);
+      window.QplayerLoader?.initiateInteractivePlayer?.();
+    };
+  </script>
+</body>
+</html>
