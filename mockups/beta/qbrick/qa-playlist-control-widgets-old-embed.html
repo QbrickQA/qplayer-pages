@@ -1,0 +1,152 @@
+
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<title>Control playlist's players from embedded site</title>
+	</head>
+
+	<body>
+		<h1>Playlist</h1>
+		<div style="margin-bottom: 24px;">
+			<label>Player 1 controllers</label>
+			<div>
+				<button onclick="play()">Play</button>
+				<button onclick="pause()">Pause</button>
+				<button onclick="mute()">Mute</button>
+				<button onclick="unMute()">Unmute</button>
+				<button onclick="jumpto10()">Jump to 10 seconds</button>
+			</div>
+		</div>
+
+		<label><b>Player 1</b></label>
+		<div style="margin-bottom: 24px;">
+			<div style="position:relative;padding-bottom:56.25%;">
+				<div style="position:absolute;top:0;left:0;"
+					title="Video 1"
+					data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
+					data-qplayer-playlist-id="570070db-7a2a-4836-9eae-e743ef40ea53"
+					data-qplayer-inline="on"
+					data-qplayer-id="player-1"
+					data-qplayer-preset-id="Enterprise"
+					data-qplayer-autoplay="false"
+          data-qplayer-beta="true">
+				</div>
+		 	</div>
+		</div>
+
+		<label><b>Player 2 (will be paused if player 1 start to play)</b></label>
+		<div style="margin-bottom: 24px;">
+			<div style="position:relative;padding-bottom:56.25%;">
+				<div style="position:absolute;top:0;left:0;"
+					title="Video 2"
+					data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
+					data-qplayer-playlist-id="a7f84f12-7529-4fa0-b84d-042d8476e1b6"
+					data-qplayer-inline="on"
+					data-qplayer-id="player-2"
+					data-qplayer-preset-id="Enterprise"
+					data-qplayer-autoplay="true"
+					data-qplayer-mute="true"
+          data-qplayer-beta="true">
+				</div>
+			</div>
+		</div>
+
+		<script src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.min.js"></script>
+		<script>
+			function pause() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				console.log(player1Iframe);
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'pause' // Command to pause the player
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+			function play() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				console.log(player1Iframe);
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'play' // Command to play the player
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+			function jumpto10() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'position', // Command to set the position
+							metadata: { position: 10 }
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+
+			function mute() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'volume', // Command to set the volume
+							metadata: { volume: 0 } // Volume range from 0 to 1.
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+
+			function unMute() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'volume', // Command to set the volume
+							metadata: { volume: 0.5 } // Volume range from 0 to 1.
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+
+			window.addEventListener('message', (e) => {
+				if (e.data.identifier === "Qplayer") {
+					if (e.data.type === "ready") {
+						// You should always check if the players are ready before sending any commands to it.
+						console.log(`Player of ${e.data.mediaId} is ready!`, { data: {...e.data }});
+					}
+
+					if (e.data.type === "play") {
+						console.log(`${e.data.mediaId} is playing...`, { data: {...e.data }});
+						const player2Iframe = document.querySelector('#iframeplayer-2'); // Player's iframe id: `iframe{data-qplayer-id}
+						if (player2Iframe && e.data.mediaId === "570070db-7a2a-4836-9eae-e743ef40ea53") {
+							player2Iframe.contentWindow.postMessage(
+								{
+									identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+									command: 'pause', // Command to pause the player
+								},
+								'https://play2.qbrick.com' // Send to Qplayer origin
+							);
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
