@@ -2,96 +2,94 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <title>Control players from embedded site (Web Component)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QPlayer – New Embed Event Test</title>
+
+    <style>
+      qplayer-embed {
+        display: block;
+        width: 100%;
+        margin-bottom: 24px;
+      }
+    </style>
   </head>
 
   <body>
-    <div style="margin-bottom: 24px;">
-      <label>Player 1 controllers</label>
-      <div>
-        <button onclick="play()">Play</button>
-        <button onclick="pause()">Pause</button>
-        <button onclick="mute()">Mute</button>
-        <button onclick="unMute()">Unmute</button>
-        <button onclick="jumpto10()">Jump to 10 seconds</button>
-      </div>
-      <div style="margin-top: 12px;">
-        <label>Current position: </label>
-        <span id="playerPos1">00:00</span>
-      </div>
+    <h3>Player 1 controls</h3>
+    <button onclick="play()">Play</button>
+    <button onclick="pause()">Pause</button>
+    <button onclick="mute()">Mute</button>
+    <button onclick="unMute()">Unmute</button>
+    <button onclick="jumpTo10()">Jump to 10s</button>
+
+    <div style="margin-top: 8px;">
+      Position: <span id="playerPos1">00:00</span>
     </div>
 
-    <label><b>Player 1</b></label>
-    <div style="margin-bottom: 24px;">
-      <qplayer-embed
-        title="Video 1"
-        data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
-        data-qplayer-media-id="047226d5-00090291-19993686"
-        data-qplayer-inline="on"
-        data-qplayer-id="player-1"
-        data-qplayer-autoplay="false"
-        data-qplayer-aspect-ratio="16/9">
-      </qplayer-embed>
+    <h3>Player 1</h3>
+    <qplayer-embed
+      data-qplayer-id="player-1"
+      data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
+      data-qplayer-media-id="047226d5-00090291-19993686"
+      data-qplayer-inline="on"
+      data-qplayer-aspect-ratio="16/9">
+    </qplayer-embed>
+
+    <h3>Player 2 (paused when Player 1 plays)</h3>
+    <div>
+      Position: <span id="playerPos2">00:00</span>
     </div>
 
-    <label><b>Player 2 (will be paused if player 1 starts to play)</b></label>
-    <div style="margin-top: 12px; margin-bottom: 12px;">
-      <label>Current position: </label>
-      <span id="playerPos2">00:00</span>
-    </div>
-
-    <div style="margin-bottom: 24px;">
-      <qplayer-embed
-        title="Video 2"
-        data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
-        data-qplayer-media-id="75a1666f-ce10-46a5-86a1-996a636f39b2"
-        data-qplayer-inline="on"
-        data-qplayer-id="player-2"
-        data-qplayer-autoplay="true"
-        data-qplayer-mute="true"
-        data-qplayer-aspect-ratio="16/9">
-      </qplayer-embed>
-    </div>
+    <qplayer-embed
+      data-qplayer-id="player-2"
+      data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
+      data-qplayer-media-id="75a1666f-ce10-46a5-86a1-996a636f39b2"
+      data-qplayer-inline="on"
+      data-qplayer-aspect-ratio="16/9"
+      data-qplayer-autoplay="true"
+      data-qplayer-mute="true">
+    </qplayer-embed>
 
     <script src="https://play2.qbrick.com/qplayer-beta/qplayer.min.js"></script>
 
     <script>
-      // ----- Strict helpers (avoid binding to the wrong element) -----
+      // ---------- helpers ----------
 
-      function getHost(playerId) {
-        const host = document.querySelector(`qplayer-embed[data-qplayer-id="${playerId}"]`);
-        if (!host) throw new Error(`Host not found for playerId="${playerId}"`);
-        return host;
-      }
+      function getVideo(playerId) {
+        const host = document.querySelector(
+          'qplayer-embed[data-qplayer-id="' + playerId + '"]'
+        );
+        if (!host) throw new Error('Host not found: ' + playerId);
 
-      // Assumption: exactly ONE <video> per qplayer-embed on this page.
-      function getVideoStrict(playerId) {
-        const host = getHost(playerId);
         const videos = host.querySelectorAll('video');
         if (videos.length !== 1) {
           throw new Error(
-            `${playerId}: expected exactly 1 <video> inside embed, found ${videos.length}. ` +
-            `If the player renders multiple videos, you must implement a deterministic selector.`
+            playerId + ': expected exactly 1 <video>, found ' + videos.length
           );
         }
         return videos[0];
       }
 
-      function fmtTime(seconds) {
-        const s = Math.floor(Number(seconds) || 0);
+      function fmt(seconds) {
+        const s = Math.floor(seconds || 0);
         const m = String(Math.floor(s / 60)).padStart(2, '0');
         const r = String(s % 60).padStart(2, '0');
-        return `${m}:${r}`;
+        return m + ':' + r;
       }
 
-      // ----- Button actions (Player 1) -----
+      function safePlay(video) {
+        return video.play().catch(function (err) {
+          // AbortError is expected when play() is interrupted by pause()
+          if (err && err.name === 'AbortError') return;
+          console.warn('play() failed:', err);
+        });
+      }
+
+      // ---------- controls (Player 1) ----------
 
       function play() {
         try {
-          const v = getVideoStrict('player-1');
-          v.play().catch(err => console.warn('Play failed:', err));
+          safePlay(getVideo('player-1'));
         } catch (e) {
           console.warn(e);
         }
@@ -99,15 +97,8 @@
 
       function pause() {
         try {
-          getVideoStrict('player-1').pause();
-        } catch (e) {
-          console.warn(e);
-        }
-      }
-
-      function jumpto10() {
-        try {
-          getVideoStrict('player-1').currentTime = 10;
+          const v = getVideo('player-1');
+          if (!v.paused) v.pause();
         } catch (e) {
           console.warn(e);
         }
@@ -115,7 +106,7 @@
 
       function mute() {
         try {
-          getVideoStrict('player-1').muted = true;
+          getVideo('player-1').muted = true;
         } catch (e) {
           console.warn(e);
         }
@@ -123,59 +114,52 @@
 
       function unMute() {
         try {
-          const v = getVideoStrict('player-1');
-          v.muted = false;
-          // Optional: restore a default audible level if needed:
-          // v.volume = 0.5;
+          getVideo('player-1').muted = false;
         } catch (e) {
           console.warn(e);
         }
       }
 
-      // ----- Wiring: positions + pause player 2 when player 1 plays -----
+      function jumpTo10() {
+        try {
+          getVideo('player-1').currentTime = 10;
+        } catch (e) {
+          console.warn(e);
+        }
+      }
 
-      function wireOnce() {
-        const v1 = getVideoStrict('player-1');
-        const v2 = getVideoStrict('player-2');
+      // ---------- wiring ----------
 
-        // Position UI
-        v1.addEventListener('timeupdate', () => {
-          const el = document.getElementById('playerPos1');
-          if (el) el.textContent = fmtTime(v1.currentTime);
+      function wireEvents() {
+        const v1 = getVideo('player-1');
+        const v2 = getVideo('player-2');
+
+        v1.addEventListener('timeupdate', function () {
+          document.getElementById('playerPos1').textContent = fmt(v1.currentTime);
         });
 
-        v2.addEventListener('timeupdate', () => {
-          const el = document.getElementById('playerPos2');
-          if (el) el.textContent = fmtTime(v2.currentTime);
+        v2.addEventListener('timeupdate', function () {
+          document.getElementById('playerPos2').textContent = fmt(v2.currentTime);
         });
 
-        // Pause player 2 when player 1 starts playing
-        v1.addEventListener('play', () => {
+        v1.addEventListener('play', function () {
           if (!v2.paused) v2.pause();
         });
 
-        // Diagnostics (optional)
-        v1.addEventListener('loadedmetadata', () => console.log('P1 loadedmetadata', { duration: v1.duration }));
-        v2.addEventListener('loadedmetadata', () => console.log('P2 loadedmetadata', { duration: v2.duration }));
-        v1.addEventListener('pause', () => console.log('P1 pause'));
-        v2.addEventListener('pause', () => console.log('P2 pause'));
-
-        console.log('Event wiring complete', { v1, v2 });
+        console.log('Event wiring complete');
       }
 
-      // The embed may render its <video> asynchronously, so poll briefly.
+      // videos are rendered async → poll once
       (function init() {
-        const started = Date.now();
-        const timeoutMs = 10000;
-
-        const timer = setInterval(() => {
+        const start = Date.now();
+        const timer = setInterval(function () {
           try {
-            wireOnce();
+            wireEvents();
             clearInterval(timer);
           } catch (e) {
-            if (Date.now() - started > timeoutMs) {
+            if (Date.now() - start > 10000) {
               clearInterval(timer);
-              console.warn('Timed out waiting for videos. Last error:', e);
+              console.warn('Timed out waiting for videos');
             }
           }
         }, 100);
