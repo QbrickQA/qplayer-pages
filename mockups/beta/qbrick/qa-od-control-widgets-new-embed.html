@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<title>Control players from embedded site</title>
+	</head>
+
+	<body>
+		<div style="margin-bottom: 24px;">
+			<label>Player 1 controllers</label>
+			<div>
+				<button onclick="play()">Play</button>
+				<button onclick="pause()">Pause</button>
+				<button onclick="mute()">Mute</button>
+				<button onclick="unMute()">Unmute</button>
+				<button onclick="jumpto10()">Jump to 10 seconds</button>
+			</div>
+			<div style="margin-top: 12px;">
+				<label>Current position: </label>
+				<span id="playerPos1">00:00</span>
+			</div>
+		</div>
+
+
+		<label><b>Player 1</b></label>
+		<div style="margin-bottom: 24px;">
+			<qplayer-embed
+					title="Video 1"
+					data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
+					data-qplayer-media-id="047226d5-00090291-19993686"
+					data-qplayer-inline="on"
+					data-qplayer-id="player-1"
+					data-qplayer-autoplay="false"
+          data-qplayer-beta="true">
+      </qplayer-embed>
+		</div>
+
+		<label><b>Player 2 (will be paused if player 1 start to play)</b></label>
+		<div style="margin-top: 12px; margin-bottom: 12px;">
+			<label>Current position: </label>
+			<span id="playerPos2">00:00</span>
+		</div>
+		<div style="margin-bottom: 24px;">
+			<div>
+				<qplayer-embed
+						title="Video 2"
+						data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA"
+						data-qplayer-media-id="75a1666f-ce10-46a5-86a1-996a636f39b2"
+						data-qplayer-inline="on"
+						data-qplayer-id="player-2"
+						data-qplayer-autoplay="true"
+						data-qplayer-mute="true"
+	      </qplayer-embed>
+		</div>
+
+		<script src="https://play2.qbrick.com/qplayer-beta/qplayer.min.js"></script>
+		<script>
+			function pause() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				console.log(player1Iframe);
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'pause' // Command to pause the player
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+			function play() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				console.log(player1Iframe);
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'play' // Command to play the player
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+			function jumpto10() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'position', // Command to set the position
+							metadata: { position: 10 }
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+
+			function mute() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'volume', // Command to set the volume
+							metadata: { volume: 0 } // Volume range from 0 to 1.
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+
+			function unMute() {
+				const player1Iframe = document.querySelector('#iframeplayer-1');
+				if (player1Iframe) {
+					player1Iframe.contentWindow.postMessage(
+						{
+							identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+							command: 'volume', // Command to set the volume
+							metadata: { volume: 0.5 } // Volume range from 0 to 1.
+						},
+						'https://play2.qbrick.com' // Send to Qplayer origin
+					);
+				}
+			}
+
+			window.addEventListener('message', (e) => {
+				if (e.data.identifier === "Qplayer") {
+					if (e.data.type === "ready") {
+						// You should always check if the players are ready before sending any commands to it.
+						console.log(`Player of ${e.data.mediaId} is ready!`, { data: {...e.data }});
+					}
+					if (e.data.type === "playable") {
+						console.log(`Player of ${e.data.mediaId} is playable!`, { data: {...e.data }});
+					}
+
+					if (e.data.type === "play") {
+						console.log(`${e.data.mediaId} is playing...`, { data: {...e.data }});
+						const player2Iframe = document.querySelector('#iframeplayer-2'); // Player's iframe id: `iframe{data-qplayer-id}
+						if (player2Iframe && e.data.mediaId === "047226d5-00090291-19993686") {
+							player2Iframe.contentWindow.postMessage(
+								{
+									identifier: 'Qplayer.Embedded', // Has to be 'Qplayer.Embedded'
+									command: 'pause', // Command to pause the player
+								},
+								'https://play2.qbrick.com' // Send to Qplayer origin
+							);
+						}
+					}
+
+					if (e.data.type === "pause") {
+						console.log(`${e.data.mediaId} - pause!`, { data: {...e.data }});
+					}
+
+					// POSITION EVENT
+					if (e.data.type === "position") {
+						const positionSpan1 = document.getElementById('playerPos1');
+						const positionSpan2 = document.getElementById('playerPos2');
+						if (e.data.mediaId === "047226d5-00090291-19993686" && positionSpan1) {
+							const posSeconds = Math.floor(e.data.metadata.position);
+							const minutes = String(Math.floor(posSeconds / 60)).padStart(2, '0');
+							const seconds = String(posSeconds % 60).padStart(2, '0');
+							positionSpan1.textContent = `${minutes}:${seconds}`;
+						}
+						if (e.data.mediaId === "75a1666f-ce10-46a5-86a1-996a636f39b2" && positionSpan2) {
+							const posSeconds = Math.floor(e.data.metadata.position);
+							const minutes = String(Math.floor(posSeconds / 60)).padStart(2, '0');
+							const seconds = String(posSeconds % 60).padStart(2, '0');
+							positionSpan2.textContent = `${minutes}:${seconds}`;
+						}
+						console.log(`${e.data.mediaId} - position!`, { data: {...e.data }});
+					}
+
+					if (e.data.type === "duration") {
+						console.log(`${e.data.mediaId} - duration!`, { data: {...e.data }});
+					}
+					if (e.data.type === "volume") {
+						console.log(`${e.data.mediaId} - volume!`, { data: {...e.data }});
+					}
+					if (e.data.type === "queueItem") {
+						// console.log(`${e.data.mediaId} - queueItem!`, { data: {...e.data }});
+					}
+					if (e.data.type === "playComplete") {
+						// console.log(`${e.data.mediaId} - playComplete!`, { data: {...e.data }});
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
