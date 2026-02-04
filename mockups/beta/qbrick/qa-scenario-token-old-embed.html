@@ -12,10 +12,8 @@
     .qbrick-scenario-player__element [style*="width"],.qbrick-scenario-player__element [style*="height"]{width:100%!important;height:100%!important;}
   </style>
   <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
-
-    <!-- QPlayer loader -->
+  <!-- QPlayer loader -->
     <script src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.min.js"></script>
-
     <script type="text/javascript">
         window.onload = () => {
             const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319"; // ID of restricted media
@@ -24,7 +22,6 @@
             const currentIP = ""; // Get user current IP if needed
             const unsignedToken = expirationDate + '|' + currentIP + '|' + "AccNqtD2CsWD0Su3cmykHVzZQ";
             const token = window.MD5.hash(unsignedToken, password) + '.' + window.MD5.toHex(unsignedToken);
-
             const tokenHolder = document.getElementById("token-holder");
 
             // "data-qplayer-token" has value:
@@ -42,7 +39,7 @@
     </script>
 </head>
 <body>
-  <header><h1>Scenario B — Beta (dev, restricted)</h1></header>
+  <header><h1>Scenario - Token Restriction</h1></header>
   <main class="frame">
     <div class="ratio">
       <div class="qbrick-scenario-player__element" 
@@ -52,7 +49,6 @@
         data-qplayer-preset-id="Kruso_Interactive"
         data-qplayer-beta="true"
         data-qplayer-inline="on"
-        data-qplayer-id="scenario-b-beta-dev"
         data-qplayer-autoplay="false"
         data-qplayer-thumbnail-media-id="698d7b31-f733-43ac-9541-d2b77903accf"
         data-qplayer-language="dk">
