@@ -160,6 +160,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" href="https://www.qbrick.com/wp-content/uploads/2020/10/cropped-Q_blue-192x192.png" sizes="192x192" />
 <link rel="apple-touch-icon" href="https://www.qbrick.com/wp-content/uploads/2020/10/cropped-Q_blue-180x180.png" />
 <meta name="msapplication-TileImage" content="https://www.qbrick.com/wp-content/uploads/2020/10/cropped-Q_blue-270x270.png" />
+ <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
+  <!-- QPlayer loader -->
+    <script src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.min.js"></script>
+    <script type="text/javascript">
+        window.onload = () => {
+            const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319"; // ID of restricted media
+            const expirationDate = new Date(+new Date() + 300000).toISOString();
+            const password = "sk-" + scenarioId;
+            const currentIP = ""; // Get user current IP if needed
+            const unsignedToken = expirationDate + '|' + currentIP + '|' + "AccNqtD2CsWD0Su3cmykHVzZQ";
+            const token = window.MD5.hash(unsignedToken, password) + '.' + window.MD5.toHex(unsignedToken);
+            const tokenHolder = document.getElementById("token-holder");
+
+            // "data-qplayer-token" has value:
+            // - For media: `{token}-media-{mediaId}`
+            // - For scenario: `{token}-scenario-{scenarioId}`
+            if (tokenHolder) {
+                tokenHolder.setAttribute("data-qplayer-token", token + "-scenario-" + scenarioId)
+            }
+          console.info("token", token, tokenHolder, password)
+
+            // To create player
+            window.QplayerLoader.initiateInteractivePlayer?.();
+            // Call window.QplayerLoader.killInteractivePlayer?.() to kill player if needed
+        }
+    </script>	
 </head>
 <body class="wp-singular page-template-default page page-id-26511 wp-custom-logo wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-full-width elementor-kit-4115 elementor-page elementor-page-26511">
 
@@ -684,8 +710,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<div class="elementor-element elementor-element-48091ac e-con-full e-flex e-con e-child" data-id="48091ac" data-element_type="container" data-e-type="container">
 				<div class="elementor-element elementor-element-62086e2 elementor-widget elementor-widget-html" data-id="62086e2" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
 				<div class="elementor-widget-container">
-					<div style="position:relative;padding-bottom:56.25%;border-radius:10px;overflow:hidden;"><div style="position:absolute;top:0;left:0;" title="Why Interact" data-qplayer-account-id="AccPn4oB8ooNEqDOBpvqxDBIA" data-qplayer-scenario-id="f7558750-3ba7-4c4a-b25f-805ee0c653d5" data-qplayer-preset-id="7bc5b463-c758-4fae-ac63-c774cb2fa09c" data-qplayer-inline="off" data-qplayer-beta="true"></div>
-<script id="qplayer" src="https://play2.qbrick.com/qplayer-beta/loader/qplayer-loader.min.js"></script></div>				</div>
+					<div style="position:relative;padding-bottom:56.25%;border-radius:10px;overflow:hidden;">
+						<div style="position:absolute;top:0;left:0;" 
+							title="Why Interact"
+							data-qplayer-id="qplayerToken1"
+							data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+							data-qplayer-scenario-id="5be4bb86-ba2d-4812-a06c-79350375a319"
+							data-qplayer-preset-id="Kruso_Interactive"
+							data-qplayer-inline="off"
+							data-qplayer-beta="true"
+							data-qplayer-autoplay="false"
+							data-qplayer-thumbnail-media-id="698d7b31-f733-43ac-9541-d2b77903accf"
+							data-qplayer-language="dk">
+							<span id="token-holder"/>
+						</div>
+					</div>
+				</div>
 				</div>
 				</div>
 					</div>
