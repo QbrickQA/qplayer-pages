@@ -186,7 +186,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     </script>
   <script>
-  window.addEventListener("DOMContentLoaded", applyToken);
+  window.addEventListener("DOMContentLoaded", () => {
+  applyToken();
+  window.QplayerLoader?.initiateInteractivePlayer?.();
+  });
 </script>
 </head>
 <body class="wp-singular page-template-default page page-id-26511 wp-custom-logo wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-full-width elementor-kit-4115 elementor-page elementor-page-26511">
