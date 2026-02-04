@@ -56,70 +56,87 @@
     <script src="https://play2.qbrick.com/qplayer-beta/qplayer.min.js"></script>
 
     <script>
-      // Prefer the main playback video element; avoid overlay/preview videos.
-      function getMainVideo(playerId) {
+      // ----- Strict helpers (avoid binding to the wrong element) -----
+
+      function getHost(playerId) {
         const host = document.querySelector(`qplayer-embed[data-qplayer-id="${playerId}"]`);
-        if (!host) return null;
+        if (!host) throw new Error(`Host not found for playerId="${playerId}"`);
+        return host;
+      }
 
-        // Video.js "tech" element (your logs show vjs-tech).
-        const vjsTech = host.querySelector('video.vjs-tech');
-        if (vjsTech) return vjsTech;
-
-        // Fallback: largest visible <video> inside host.
-        const vids = Array.from(host.querySelectorAll('video'))
-          .filter(v => v.offsetParent !== null); // visible-ish
-        vids.sort((a, b) => (b.clientWidth * b.clientHeight) - (a.clientWidth * a.clientHeight));
-        return vids[0] || null;
+      // Assumption: exactly ONE <video> per qplayer-embed on this page.
+      function getVideoStrict(playerId) {
+        const host = getHost(playerId);
+        const videos = host.querySelectorAll('video');
+        if (videos.length !== 1) {
+          throw new Error(
+            `${playerId}: expected exactly 1 <video> inside embed, found ${videos.length}. ` +
+            `If the player renders multiple videos, you must implement a deterministic selector.`
+          );
+        }
+        return videos[0];
       }
 
       function fmtTime(seconds) {
-        const s = Math.floor(seconds || 0);
+        const s = Math.floor(Number(seconds) || 0);
         const m = String(Math.floor(s / 60)).padStart(2, '0');
         const r = String(s % 60).padStart(2, '0');
         return `${m}:${r}`;
       }
 
-      // Controller functions used by buttons
+      // ----- Button actions (Player 1) -----
+
       function play() {
-        const v = getMainVideo('player-1');
-        if (!v) return console.warn('Player 1 main video not found');
-        v.play().catch(err => console.warn('Play failed:', err));
+        try {
+          const v = getVideoStrict('player-1');
+          v.play().catch(err => console.warn('Play failed:', err));
+        } catch (e) {
+          console.warn(e);
+        }
       }
 
       function pause() {
-        const v = getMainVideo('player-1');
-        if (!v) return console.warn('Player 1 main video not found');
-        v.pause();
+        try {
+          getVideoStrict('player-1').pause();
+        } catch (e) {
+          console.warn(e);
+        }
       }
 
       function jumpto10() {
-        const v = getMainVideo('player-1');
-        if (!v) return console.warn('Player 1 main video not found');
-        v.currentTime = 10;
+        try {
+          getVideoStrict('player-1').currentTime = 10;
+        } catch (e) {
+          console.warn(e);
+        }
       }
 
       function mute() {
-        const v = getMainVideo('player-1');
-        if (!v) return console.warn('Player 1 main video not found');
-        v.muted = true;
+        try {
+          getVideoStrict('player-1').muted = true;
+        } catch (e) {
+          console.warn(e);
+        }
       }
 
       function unMute() {
-        const v = getMainVideo('player-1');
-        if (!v) return console.warn('Player 1 main video not found');
-        v.muted = false;
-        // Optional: restore to a non-zero volume if you want old behavior
-        // v.volume = 0.5;
+        try {
+          const v = getVideoStrict('player-1');
+          v.muted = false;
+          // Optional: restore a default audible level if needed:
+          // v.volume = 0.5;
+        } catch (e) {
+          console.warn(e);
+        }
       }
 
-      // Wire up events once videos exist. They might be rendered async.
-      function wirePlayerEvents() {
-        const v1 = getMainVideo('player-1');
-        const v2 = getMainVideo('player-2');
+      // ----- Wiring: positions + pause player 2 when player 1 plays -----
 
-        if (!v1 || !v2) return false;
+      function wireOnce() {
+        const v1 = getVideoStrict('player-1');
+        const v2 = getVideoStrict('player-2');
 
-        // Update UI positions
+        // Position UI
         v1.addEventListener('timeupdate', () => {
           const el = document.getElementById('playerPos1');
           if (el) el.textContent = fmtTime(v1.currentTime);
@@ -135,29 +152,29 @@
           if (!v2.paused) v2.pause();
         });
 
-        // Console diagnostics (optional)
+        // Diagnostics (optional)
         v1.addEventListener('loadedmetadata', () => console.log('P1 loadedmetadata', { duration: v1.duration }));
         v2.addEventListener('loadedmetadata', () => console.log('P2 loadedmetadata', { duration: v2.duration }));
         v1.addEventListener('pause', () => console.log('P1 pause'));
         v2.addEventListener('pause', () => console.log('P2 pause'));
-        v1.addEventListener('volumechange', () => console.log('P1 volumechange', { muted: v1.muted, volume: v1.volume }));
-        v2.addEventListener('volumechange', () => console.log('P2 volumechange', { muted: v2.muted, volume: v2.volume }));
 
-        console.log('Player event wiring complete', { v1, v2 });
-        return true;
+        console.log('Event wiring complete', { v1, v2 });
       }
 
-      // Poll briefly until the player has rendered its <video> elements.
+      // The embed may render its <video> asynchronously, so poll briefly.
       (function init() {
         const started = Date.now();
+        const timeoutMs = 10000;
+
         const timer = setInterval(() => {
-          if (wirePlayerEvents()) {
+          try {
+            wireOnce();
             clearInterval(timer);
-            return;
-          }
-          if (Date.now() - started > 10000) {
-            clearInterval(timer);
-            console.warn('Timed out waiting for video elements to appear');
+          } catch (e) {
+            if (Date.now() - started > timeoutMs) {
+              clearInterval(timer);
+              console.warn('Timed out waiting for videos. Last error:', e);
+            }
           }
         }, 100);
       })();
