@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kruso - Token - DIV Embed - Token</title>
+   <script src="https://video.qbrick.com/docs/api/examples/md5.js"></script>
+
+  <!-- <script src="https://localhost:3000/qplayer.min.js" defer></script> -->
+  <script src="https://play2.qbrick.com/qplayer-beta/qplayer.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = () => {
+            const scenarioId = "5be4bb86-ba2d-4812-a06c-79350375a319"; // ID of restricted scenario
+            const mediaId = "516f1518-f3c7-457a-a809-bbf8b47c1ac8"; // ID of restricted scenario
+            const expirationDate = new Date(+new Date() + 300000).toISOString();
+
+            const password = "pws";
+            // const password = "sk-" + scenarioId;
+            const currentIP = ""; // Get user current IP if needed
+            const accountId = "" // If needed
+            const unsignedToken = expirationDate + '|' + currentIP + '|' + accountId;
+            const token = window.MD5.hash(unsignedToken, password) + '.' + window.MD5.toHex(unsignedToken);
+
+            console.info("token", token)
+
+
+            const container = document.getElementById('divPlayerContainer');
+
+
+        // data-qplayer-scenario-id="5be4bb86-ba2d-4812-a06c-79350375a319"
+            const player = document.createElement('qplayer-embed');
+            player.className = 'divPlayerContainer player-wrapper';
+            player.setAttribute('data-qplayer-id', 'newly-created-player-id');
+            player.setAttribute('data-qplayer-preset-id', 'Enterprise');
+            player.setAttribute('data-qplayer-aspect-ratio', '16/9');
+            player.setAttribute('data-qplayer-media-id', mediaId);
+            player.setAttribute('data-qplayer-account-id', '123516');
+            player.setAttribute("data-qplayer-token", token + "-media-" + mediaId);
+
+            // player.setAttribute('data-qplayer-account-id', 'AccNqtD2CsWD0Su3cmykHVzZQ');
+            // player.setAttribute('data-qplayer-scenario-id', scenarioId);
+            // player.setAttribute("data-qplayer-token", token + "-scenario-" + scenarioId)
+
+            container.appendChild(player);
+
+        }
+    </script>
+
+</head>
+<body>
+  <div class="container">
+
+  <div style="width: 700px;margin: auto;" id="divPlayerContainer">
+      <!-- Original embed code untouched -->
+    </div>
+  </div>
+</body>
+</html>
