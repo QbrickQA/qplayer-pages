@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qplayer Test Pages</title>
+  <style>
+    :root {
+      --brand-blue: #126cfc;
+      --brand-purple: #6f42ff;
+      --bg: #ffffff;
+      --surface: #f6f8fc;
+      --text: #121212;
+      --muted: #5f6673;
+      --border: #d9e0ef;
+      --radius: 14px;
+      --radius-lg: 20px;
+      --max: 1200px;
+      --shadow: 0 16px 40px rgba(18, 108, 252, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(111, 66, 255, 0.08), transparent 24%),
+        radial-gradient(circle at top left, rgba(18, 108, 252, 0.08), transparent 24%),
+        linear-gradient(180deg, #ffffff, #f7f9ff);
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .logo-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
+      box-shadow: var(--shadow);
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--brand-blue);
+      background: rgba(18, 108, 252, 0.08);
+    }
+
+    .hero {
+      padding: 56px 0 28px;
+    }
+
+    .hero-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(18, 108, 252, 0.08);
+      color: var(--brand-blue);
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 64ch;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .section {
+      padding: 0 0 36px;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 64ch;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .category-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .category-card:hover,
+    .category-card:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(18, 108, 252, 0.35);
+      box-shadow: 0 18px 44px rgba(18, 108, 252, 0.12);
+      outline: none;
+    }
+
+    .category-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .category-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .category-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--brand-blue);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .workflow-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .workflow-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .workflow-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      margin: 0 0 32px;
+      padding-top: 8px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    a:focus-visible {
+      outline: 3px solid rgba(18, 108, 252, 0.3);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .category-grid,
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(calc(100% - 20px), var(--max));
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-card,
+      .category-card,
+      .workflow-card {
+        padding: 20px;
+      }
+
+      h1 {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">
+        <div class="logo-badge">Q</div>
+        <div>Player QA</div>
+      </div>
+
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="playback.html">Playback Tests</a>
+        <a href="override.html">Override Tests</a>
+        <a href="wcag.html">WCAG</a>
+        <a href="transcription.html">Transcription</a>
+        <a href="subtitles.html">Subtitles</a>
+        <a href="multiaudio.html">Multiaudio</a>
+        <a href="audiodescription.html">Audio Description</a>
+        <a href="interactive.html">Interactive</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Qbrick Player Test Index</div>
+        <h1>Central entry point for player QA.</h1>
+        <p class="lead">
+          This index page links to each test category. Each category should lead to a landing page where testers can continue to either Embed 1.0 pages or Embed 1.1 pages, and from there to the individual test cases.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="category-heading">
+      <div class="section-head">
+        <h2 id="category-heading">Test categories</h2>
+        <p>Select a category to continue to its landing page.</p>
+      </div>
+
+      <div class="category-grid">
+        <a class="category-card" href="playback.html">
+          <h3>Playback Tests</h3>
+          <p>Critical-path playback validation, startup behavior, timeline progression, buffering, and core player stability.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="override.html">
+          <h3>Override Tests</h3>
+          <p>Configuration overrides, parameter precedence, customization handling, and behavior changes introduced by embed settings.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="wcag.html">
+          <h3>WCAG</h3>
+          <p>Keyboard navigation, focus visibility, accessible controls, and other accessibility-related validation of player behavior.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="transcription.html">
+          <h3>Transcription</h3>
+          <p>Transcript visibility, structure, synchronization expectations, navigation, and responsive behavior.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="subtitles.html">
+          <h3>Subtitles</h3>
+          <p>Subtitle rendering, toggling, language selection, timing, persistence after seek, and display behavior.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="multiaudio.html">
+          <h3>Multiaudio</h3>
+          <p>Audio track selection, language switching, continuity after track changes, and expected persistence of audio preferences.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="audiodescription.html">
+          <h3>Audio Description</h3>
+          <p>Availability and handling of audio description tracks, track labels, switching behavior, and accessibility expectations.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+
+        <a class="category-card" href="interactive.html">
+          <h3>Interactive</h3>
+          <p>Interactive overlays, branching, timed actions, clickable controls, focus handling, and state continuity.</p>
+          <span class="category-meta">Open category</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="workflow-heading">
+      <div class="section-head">
+        <h2 id="workflow-heading">Suggested structure</h2>
+        <p>The site hierarchy should remain explicit so testers always know where they are in the flow.</p>
+      </div>
+
+      <div class="workflow">
+        <div class="workflow-card">
+          <strong>Step 1 · Index</strong>
+          <p>Select a test category from this page.</p>
+        </div>
+
+        <div class="workflow-card">
+          <strong>Step 2 · Category landing</strong>
+          <p>Choose Embed 1.0 or Embed 1.1 within the selected category.</p>
+        </div>
+
+        <div class="workflow-card">
+          <strong>Step 3 · Test pages</strong>
+          <p>Open the individual test cases for the chosen embed version.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Internal QA test environment · Qbrick Player
+    </footer>
+  </main>
+</body>
+</html>
