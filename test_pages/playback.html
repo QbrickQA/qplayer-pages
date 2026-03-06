@@ -51,7 +51,6 @@
           <h3>Embed 1.0</h3>
           <p>
           	This is our legacy embed method. There are two ways to do this embed, either using div or iframe.
-			Note that the div embed itself also implements the player in an iframe.
           </p>
           <span class="version-meta">Open Embed 1.0</span>
         </a>
@@ -60,11 +59,7 @@
           <span class="version-tag">Current Embed</span>
           <h3>Embed 1.1</h3>
           <p>
-        	This is our new embed method. It utilized webcomponent. There are two different embeds here:
-			  <ul>
-				  <li>qplayer-embed</li>
-				  <li>qplayer-modal embed</li>
-			  </ul>
+        	This is our new embed method using a web component style implementation.
           </p>
           <span class="version-meta">Open Embed 1.1</span>
         </a>
@@ -73,14 +68,15 @@
 
     <section class="section">
       <div class="notes-card">
-        <h2>Optional notes</h2>
+        <h2>Notes</h2>
         <p>
-          This section is intentionally generic. You can keep it, remove it, or replace it with category-specific guidance.
+          Until we've deprecated the legacy embed method, we must test both 1.0 and 1.1 version of the embed. <br>
+			Some things that are good to remember:
         </p>
         <ul>
-          <li>List important assumptions for this category.</li>
-          <li>List known limitations or differences between Embed 1.0 and Embed 1.1.</li>
-          <li>List links to shared assets, test media, or reference documents if needed.</li>
+          <li>1.0 div embed still uses an iframe to render the player.</li>
+          <li>1.1 utilizes a web component style, divided into two different embeds <qplayer embed> and <qplayer-modal embed>.</li>
+          <li>You can find more information here: https://video.qbrick.com/docs/api/#.general under Qplayer.</li>
         </ul>
       </div>
     </section>
