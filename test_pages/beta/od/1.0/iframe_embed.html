@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generic Player Test Beta</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 24px;
+            color: #666;
+        }
+
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,.15);
+        }
+
+        .player-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Test Player Beta</h1>
+
+    <p>
+        Generic Test Player for On-Demand content - using 1.0 IFrame embed.
+    </p>
+
+    <div class="player-wrapper">
+    <div style="position:relative;padding-bottom:56.25%;">
+      <iframe 
+        title="source" 
+        src="https://play2.qbrick.com/qplayer-beta/index.html?accountId=AccNqtD2CsWD0Su3cmykHVzZQ&mediaId=565125ed-a1c3-45d4-94e8-12234ad093a4&configId=3074c4a3-0bb7-4fe5-87b6-5ebb29614443" 
+        allowFullScreen="true" 
+        frameborder="0" 
+        border="0" 
+        height="100%" 
+        width="100%" 
+        style="position:absolute;top:0;left:0;">
+      </iframe>
+    </div>
+    </div>
+
+</div>
+
+</body>
+</html>
