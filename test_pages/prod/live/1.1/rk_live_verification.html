@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generic Player Test</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 24px;
+            color: #666;
+        }
+
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,.15);
+        }
+
+        .player-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Test Player Prod</h1>
+
+    <p>
+        Generic Test Player for On-Demand content - using 1.1 Qplayer-embed.
+    </p>
+
+    <div class="player-wrapper">
+            <qplayer-embed class="rs_skip"
+                data-qplayer-id="72cd21cd-6ccf-43cf-bffc-3a78107ff6b2"
+                data-qplayer-media-id="7d3daee0-2ebc-444f-9afe-3650bba8f8fc"
+                data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+                data-qplayer-preset-id="qa_rk_setup_20250623"
+                data-qplayer-language="sv"
+                data-qplayer-shareUrl="https://regeringen.se/pressmeddelanden/2026/08/presstraff-om-arbetet-mot-brottslighet-och-ordningsstorningar-inom-idrotten/"
+                data-qplayer-aspect-ratio="16/9">
+            </qplayer-embed>
+      <script src="https://play2.qbrick.com/qplayer/qplayer.min.js"></script>
+    </div>
+    <a href="https://www.google.com" target="_self">Google</a>
+</div>
+
+</body>
+</html>
