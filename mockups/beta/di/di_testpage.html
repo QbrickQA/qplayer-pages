@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Required so mobile browsers use the actual device width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Qbrick Widget Test</title>
+</head>
+
+<body>
+
+    <!-- Main Page Widget -->
+    <ir-main id="mainPage"></ir-main>
+    <script
+        data-di-container-id="mainPage"
+        src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
+    </script>
+
+
+    <!-- Link Box Widget -->
+    <ir-linkbox id="linkBox"></ir-linkbox>
+    <script
+        data-di-container-id="linkBox"
+        src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
+    </script>
+
+
+    <!-- Company Card Widget -->
+    <ir-card
+        id="companyCard"
+        data-di-company="qbrick-5500585">
+    </ir-card>
+    <script
+        data-di-container-id="companyCard"
+        src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
+    </script>
+
+</body>
+</html>
