@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="sv">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Kvartalspresentationer – QA</title>
+    <title>Kvartalspresentationer – QA Test</title>
 
     <style>
         * {
@@ -15,24 +16,28 @@
         body {
             margin: 0;
             padding: 0;
+            width: 100%;
         }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background: #fff;
-            color: #111;
+            background: #ffffff;
+            color: #111111;
         }
+
+        /* Simple DI-like top bar */
 
         .site-header {
-            border-bottom: 1px solid #ddd;
-            padding: 18px 20px;
+            width: 100%;
+            border-bottom: 1px solid #d5d5d5;
+            background: #ffffff;
         }
 
-        .site-header__inner,
-        .page {
+        .site-header__inner {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 18px 20px;
         }
 
         .site-header__logo {
@@ -40,54 +45,88 @@
             font-weight: 700;
         }
 
-        .page {
-            padding: 40px 20px;
+        /* Main content area */
+
+        .ir-content-page {
+            width: 100%;
         }
 
-        .page-header {
+        .ir-content-page__content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* Intro section */
+
+        .ir-content-page__header {
             display: flex;
-            justify-content: space-between;
             align-items: flex-end;
+            justify-content: space-between;
             gap: 40px;
             margin-bottom: 40px;
         }
 
-        .page-header__text {
-            max-width: 700px;
+        .ir-content-page__header-text {
+            max-width: 720px;
         }
 
-        .page-header h1 {
+        .ir-content-page__header h1 {
             margin: 0 0 12px;
             font-size: 40px;
             line-height: 1.05;
         }
 
-        .page-header p {
+        .ir-content-page__header p {
             margin: 0;
             font-size: 18px;
             line-height: 1.5;
         }
 
-        .page-header a {
-            white-space: nowrap;
-            color: inherit;
+        .ir-content-page__header-link {
+            flex-shrink: 0;
+            color: #111111;
         }
 
+        /*
+         * Actual Qbrick widget area.
+         *
+         * Do NOT add font, letter-spacing, overflow or heading
+         * styling here. We want those properties to come from
+         * the widget itself so they can be tested properly.
+         */
+
+        .ir-content-page__bac-content {
+            width: 100%;
+        }
+
+        /* Mobile */
+
         @media (max-width: 767px) {
-            .page {
-                padding: 24px 16px;
+
+            .site-header__inner {
+                padding: 16px;
             }
 
-            .page-header {
+            .ir-content-page__content {
+                padding: 24px 16px 60px;
+            }
+
+            .ir-content-page__header {
                 display: block;
                 margin-bottom: 24px;
             }
 
-            .page-header h1 {
+            .ir-content-page__header h1 {
                 font-size: 32px;
             }
 
-            .page-header a {
+            .ir-content-page__header p {
+                font-size: 17px;
+            }
+
+            .ir-content-page__header-link {
                 display: inline-block;
                 margin-top: 20px;
             }
@@ -95,41 +134,81 @@
     </style>
 </head>
 
+
 <body>
 
-<header class="site-header">
-    <div class="site-header__inner">
-        <div class="site-header__logo">DI – QA test</div>
-    </div>
-</header>
+    <!-- Fake host-page header -->
 
-<main class="page">
+    <header class="site-header">
 
-    <header class="page-header">
-        <div class="page-header__text">
-            <h1>Kvartalspresentationer</h1>
+        <div class="site-header__inner">
 
-            <p>
-                Kvartalspresentationer och annan investerarkommunikation
-                från noterade bolag. En del av Di Investor Relations.
-            </p>
+            <div class="site-header__logo">
+                DI – QA Test
+            </div>
+
         </div>
 
-        <a href="article.html">Testa artikelsida →</a>
     </header>
 
-    <div class="ir-content-page__bac-content">
 
-        <ir-main id="mainPage"></ir-main>
+    <!-- Customer-page-like structure -->
 
-        <script
-            data-di-container-id="mainPage"
-            src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
-        </script>
+    <main class="ir-content-page">
 
-    </div>
+        <div class="ir-content-page__content">
 
-</main>
+
+            <!-- Page heading -->
+
+            <header class="ir-content-page__header">
+
+                <div class="ir-content-page__header-text">
+
+                    <h1>
+                        Kvartalspresentationer
+                    </h1>
+
+                    <p>
+                        Kvartalspresentationer och annan
+                        investerarkommunikation från noterade bolag.
+                        En del av Di Investor Relations.
+                    </p>
+
+                </div>
+
+
+                <!-- Link to our separate article test page -->
+
+                <a
+                    class="ir-content-page__header-link"
+                    href="article.html">
+                    Öppna artikelsida →
+                </a>
+
+            </header>
+
+
+            <!-- ========================================= -->
+            <!-- ACTUAL IR-MAIN BETA WIDGET                -->
+            <!-- ========================================= -->
+
+            <div class="ir-content-page__bac-content">
+
+                <ir-main id="mainPage"></ir-main>
+
+                <script
+                    data-di-container-id="mainPage"
+                    src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
+                </script>
+
+            </div>
+
+
+        </div>
+
+    </main>
 
 </body>
+
 </html>
