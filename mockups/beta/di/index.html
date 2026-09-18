@@ -16,89 +16,145 @@
         body {
             margin: 0;
             padding: 0;
-            width: 100%;
         }
 
         body {
-            background: #fff;
+            background: #f7f2ef;
             color: #111;
             font-family: Arial, Helvetica, sans-serif;
         }
 
         /*
-         * Host-page content.
-         * No styling is applied to the Qbrick widget itself.
+         * Approximate the customer's actual content width.
+         * This is host-page layout only.
          */
         .page {
-            width: 100%;
-            max-width: 1440px;
+            width: calc(100% - 32px);
+            max-width: 1260px;
             margin: 0 auto;
-            padding: 32px 40px;
+            padding-top: 38px;
         }
 
+        /*
+         * Customer-style heading row
+         */
         .page-header {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
+            min-height: 62px;
+            border-bottom: 1px solid #e5d8d3;
         }
 
         .page-header__title {
             display: flex;
             align-items: center;
-            gap: 7px;
             flex-shrink: 0;
         }
 
         .page-header__marker {
-            width: 14px;
-            height: 14px;
+            display: block;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
             background: #b51217;
         }
 
         .page-header h1 {
             margin: 0;
-            font-size: 22px;
-            line-height: 1.1;
+            padding-right: 18px;
+
+            font-size: 32px;
+            line-height: 1;
             font-weight: 700;
         }
 
-        .page-header p {
-            max-width: 400px;
+        .page-header__description {
+            max-width: 390px;
             margin: 0;
-            color: #777;
-            font-size: 12px;
-            line-height: 1.3;
+            padding-left: 18px;
+            border-left: 1px solid #d8cbc6;
+
+            color: #666;
+            font-size: 13px;
+            line-height: 1.25;
+        }
+
+        .page-header__cta {
+            margin-left: auto;
+            padding: 8px 18px;
+
+            border: 1px solid #d9b7ae;
+            border-radius: 999px;
+
+            color: #111;
+            background: transparent;
+
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
         }
 
         /*
-         * Qbrick widget container.
-         * Intentionally no font, letter-spacing, height,
-         * overflow or other widget-specific styling.
+         * Actual widget area.
+
+         * No font, tracking, line-height, overflow, height,
+         * etc. is applied here. Those remain controlled
+         * entirely by the Qbrick widget.
          */
-        .widget-container {
+        .widget-area {
             width: 100%;
+            margin-top: 16px;
+            background: #fff;
         }
 
+        /*
+         * Mobile host-page layout
+         */
         @media (max-width: 767px) {
+
             .page {
-                padding: 20px 16px;
+                width: 100%;
+                padding: 20px 16px 0;
             }
 
             .page-header {
                 display: block;
+                min-height: 0;
+                padding-bottom: 16px;
             }
 
             .page-header__title {
                 margin-bottom: 10px;
             }
 
-            .page-header h1 {
-                font-size: 22px;
+            .page-header__marker {
+                width: 16px;
+                height: 16px;
+                margin-right: 8px;
             }
 
-            .page-header p {
+            .page-header h1 {
+                padding: 0;
+                font-size: 24px;
+            }
+
+            .page-header__description {
+                max-width: none;
+                margin-left: 24px;
+                padding: 0;
+                border-left: 0;
+
                 font-size: 13px;
+            }
+
+            .page-header__cta {
+                display: inline-block;
+                margin: 14px 0 0 24px;
+            }
+
+            .widget-area {
+                margin-top: 12px;
             }
         }
     </style>
@@ -108,31 +164,37 @@
 
     <main class="page">
 
-        <!-- Normal customer/host-page HTML -->
+        <!-- HOST PAGE HEADER -->
 
         <header class="page-header">
 
             <div class="page-header__title">
+
                 <span class="page-header__marker"></span>
 
                 <h1>
                     Kvartalspresentationer
                 </h1>
+
             </div>
 
-            <p>
+            <p class="page-header__description">
                 Kvartalspresentationer och annan investerarkommunikation
                 från noterade bolag. En del av Di Investor Relations.
             </p>
 
+            <a href="#" class="page-header__cta">
+                Vill du synas här?
+            </a>
+
         </header>
 
 
-        <!-- ============================================= -->
-        <!-- ACTUAL IR-MAIN BETA WIDGET                    -->
-        <!-- ============================================= -->
+        <!-- ========================================== -->
+        <!-- REAL IR-MAIN BETA WIDGET                  -->
+        <!-- ========================================== -->
 
-        <div class="widget-container">
+        <section class="widget-area">
 
             <ir-main id="mainPage"></ir-main>
 
@@ -141,7 +203,7 @@
                 src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
             </script>
 
-        </div>
+        </section>
 
     </main>
 
