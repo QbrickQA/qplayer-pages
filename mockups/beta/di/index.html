@@ -20,190 +20,126 @@
         }
 
         body {
+            background: #fff;
+            color: #111;
             font-family: Arial, Helvetica, sans-serif;
-            background: #ffffff;
-            color: #111111;
-        }
-
-        /* Simple DI-like top bar */
-
-        .site-header {
-            width: 100%;
-            border-bottom: 1px solid #d5d5d5;
-            background: #ffffff;
-        }
-
-        .site-header__inner {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 18px 20px;
-        }
-
-        .site-header__logo {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        /* Main content area */
-
-        .ir-content-page {
-            width: 100%;
-        }
-
-        .ir-content-page__content {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px 80px;
-        }
-
-        /* Intro section */
-
-        .ir-content-page__header {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .ir-content-page__header-text {
-            max-width: 720px;
-        }
-
-        .ir-content-page__header h1 {
-            margin: 0 0 12px;
-            font-size: 40px;
-            line-height: 1.05;
-        }
-
-        .ir-content-page__header p {
-            margin: 0;
-            font-size: 18px;
-            line-height: 1.5;
-        }
-
-        .ir-content-page__header-link {
-            flex-shrink: 0;
-            color: #111111;
         }
 
         /*
-         * Actual Qbrick widget area.
-         *
-         * Do NOT add font, letter-spacing, overflow or heading
-         * styling here. We want those properties to come from
-         * the widget itself so they can be tested properly.
+         * Host-page content.
+         * No styling is applied to the Qbrick widget itself.
          */
+        .page {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 40px;
+        }
 
-        .ir-content-page__bac-content {
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .page-header__title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-shrink: 0;
+        }
+
+        .page-header__marker {
+            width: 14px;
+            height: 14px;
+            background: #b51217;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            max-width: 400px;
+            margin: 0;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        /*
+         * Qbrick widget container.
+         * Intentionally no font, letter-spacing, height,
+         * overflow or other widget-specific styling.
+         */
+        .widget-container {
             width: 100%;
         }
 
-        /* Mobile */
-
         @media (max-width: 767px) {
-
-            .site-header__inner {
-                padding: 16px;
+            .page {
+                padding: 20px 16px;
             }
 
-            .ir-content-page__content {
-                padding: 24px 16px 60px;
-            }
-
-            .ir-content-page__header {
+            .page-header {
                 display: block;
-                margin-bottom: 24px;
             }
 
-            .ir-content-page__header h1 {
-                font-size: 32px;
+            .page-header__title {
+                margin-bottom: 10px;
             }
 
-            .ir-content-page__header p {
-                font-size: 17px;
+            .page-header h1 {
+                font-size: 22px;
             }
 
-            .ir-content-page__header-link {
-                display: inline-block;
-                margin-top: 20px;
+            .page-header p {
+                font-size: 13px;
             }
         }
     </style>
 </head>
 
-
 <body>
 
-    <!-- Fake host-page header -->
+    <main class="page">
 
-    <header class="site-header">
+        <!-- Normal customer/host-page HTML -->
 
-        <div class="site-header__inner">
+        <header class="page-header">
 
-            <div class="site-header__logo">
-                DI – QA Test
+            <div class="page-header__title">
+                <span class="page-header__marker"></span>
+
+                <h1>
+                    Kvartalspresentationer
+                </h1>
             </div>
 
-        </div>
+            <p>
+                Kvartalspresentationer och annan investerarkommunikation
+                från noterade bolag. En del av Di Investor Relations.
+            </p>
 
-    </header>
-
-
-    <!-- Customer-page-like structure -->
-
-    <main class="ir-content-page">
-
-        <div class="ir-content-page__content">
+        </header>
 
 
-            <!-- Page heading -->
+        <!-- ============================================= -->
+        <!-- ACTUAL IR-MAIN BETA WIDGET                    -->
+        <!-- ============================================= -->
 
-            <header class="ir-content-page__header">
+        <div class="widget-container">
 
-                <div class="ir-content-page__header-text">
+            <ir-main id="mainPage"></ir-main>
 
-                    <h1>
-                        Kvartalspresentationer
-                    </h1>
-
-                    <p>
-                        Kvartalspresentationer och annan
-                        investerarkommunikation från noterade bolag.
-                        En del av Di Investor Relations.
-                    </p>
-
-                </div>
-
-
-                <!-- Link to our separate article test page -->
-
-                <a
-                    class="ir-content-page__header-link"
-                    href="article.html">
-                    Öppna artikelsida →
-                </a>
-
-            </header>
-
-
-            <!-- ========================================= -->
-            <!-- ACTUAL IR-MAIN BETA WIDGET                -->
-            <!-- ========================================= -->
-
-            <div class="ir-content-page__bac-content">
-
-                <ir-main id="mainPage"></ir-main>
-
-                <script
-                    data-di-container-id="mainPage"
-                    src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
-                </script>
-
-            </div>
-
+            <script
+                data-di-container-id="mainPage"
+                src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
+            </script>
 
         </div>
 
