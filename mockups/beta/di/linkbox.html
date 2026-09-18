@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DI Linkbox mock</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f7f2ef;
+      font-family: Arial, sans-serif;
+    }
+
+    .page {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 620px) minmax(0, 300px) minmax(0, 300px);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .placeholder {
+      min-height: 700px;
+      background: #ddd;
+      padding: 20px;
+    }
+
+    .sidebar-placeholder {
+      min-height: 500px;
+      background: #eee;
+      padding: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="layout">
+
+      <section class="placeholder">
+        Mock main content
+      </section>
+
+      <aside>
+        <ir-linkbox id="linkBox"></ir-linkbox>
+        <script
+          data-di-container-id="linkBox"
+          src="https://play2.qbrick.com/di-loader-beta/irLoader.js">
+        </script>
+      </aside>
+
+      <aside class="sidebar-placeholder">
+        Mock sidebar
+      </aside>
+
+    </div>
+  </main>
+</body>
+</html>
