@@ -1,0 +1,141 @@
+{
+  "base": "standard-controls.json",
+  "layouts": [
+    "desktop",
+    "mobile"
+  ],
+  "features": [
+    {
+      "feature": "autoplay",
+      "fields": [
+        "playbackOptions.autostart"
+      ],
+      "presets": {
+        "off": "autoplay-off.json",
+        "on": "autoplay-on.json"
+      }
+    },
+    {
+      "feature": "mute",
+      "fields": [
+        "playbackOptions.muteAtStart"
+      ],
+      "presets": {
+        "off": "mute-off.json",
+        "on": "mute-on.json"
+      }
+    },
+    {
+      "feature": "replay",
+      "fields": [
+        "playbackOptions.replay"
+      ],
+      "presets": {
+        "off": "replay-off.json",
+        "on": "replay-on.json"
+      }
+    },
+    {
+      "feature": "sharing",
+      "fields": [
+        "topControls.showSocialSharing",
+        "bottomControls.showSocialSharingSettings"
+      ],
+      "presets": {
+        "off": "sharing-off.json",
+        "on": "sharing-on.json"
+      }
+    },
+    {
+      "feature": "download",
+      "fields": [
+        "topControls.showDownloadButton"
+      ],
+      "presets": {
+        "off": "download-off.json",
+        "on": "download-on.json"
+      }
+    },
+    {
+      "feature": "open-in-new-window",
+      "fields": [
+        "topControls.showOpenInNewWindow"
+      ],
+      "presets": {
+        "off": "open-in-new-window-off.json",
+        "on": "open-in-new-window-on.json"
+      }
+    },
+    {
+      "feature": "soft-fullscreen",
+      "fields": [
+        "playbackOptions.softFullscreen"
+      ],
+      "presets": {
+        "off": "soft-fullscreen-off.json",
+        "on": "soft-fullscreen-on.json"
+      }
+    },
+    {
+      "feature": "auto-sizing",
+      "fields": [
+        "additionalSettings.autoSizing"
+      ],
+      "presets": {
+        "off": "auto-sizing-off.json",
+        "on": "auto-sizing-on.json"
+      }
+    },
+    {
+      "feature": "maintain-proportions",
+      "fields": [
+        "playbackOptions.maintainProportions"
+      ],
+      "presets": {
+        "off": "maintain-proportions-off.json",
+        "on": "maintain-proportions-on.json"
+      }
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "code": "en",
+      "preset": "language-en.json"
+    },
+    {
+      "language": "Swedish",
+      "code": "sv",
+      "preset": "language-sv.json"
+    },
+    {
+      "language": "Finnish",
+      "code": "fi",
+      "preset": "language-fi.json"
+    },
+    {
+      "language": "Danish",
+      "code": "da",
+      "preset": "language-da.json"
+    },
+    {
+      "language": "German",
+      "code": "de",
+      "preset": "language-de.json"
+    },
+    {
+      "language": "Norwegian Bokmal",
+      "code": "nb",
+      "preset": "language-nb.json"
+    }
+  ],
+  "notes": [
+    "Preset files only. Embed attributes for additional UI options still need confirmation from generated codes.",
+    "Responsive/fixed dimensions, a numeric aspect-ratio override and event link are host/embed settings; no corresponding preset fields are invented.",
+    "Open URL in player window is not mapped to a preset field until its actual generated behavior is confirmed.",
+    "Maintain proportions tests the known preset field; it does not establish the mapping for a numeric aspect-ratio override.",
+    "softFullscreen variants also synchronize the existing mobile showFullscreenUsingSoftbox field to avoid conflicting soft-fullscreen settings.",
+    "All other settings retain the supplied standard-controls baseline, including autoplay=true and muteAtStart=true unless the relevant variant changes them.",
+    "Language presets use ISO 639-1 codes; UI support should be confirmed in each player build."
+  ]
+}

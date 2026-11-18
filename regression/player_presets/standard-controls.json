@@ -1,0 +1,192 @@
+{
+  "id": "4692c6a6-db22-5f63-9fc9-9faf6acc55d3",
+  "name": "QA - Standard controls (no chat, hearts or shopping cart)",
+  "recommended": false,
+  "openNew": "window",
+  "embed": {
+    "legacy": false
+  },
+  "layouts": [
+    {
+      "type": "desktop",
+      "playbackOptions": {
+        "autostart": true,
+        "replay": true,
+        "maintainProportions": true,
+        "softFullscreen": false,
+        "muteAtStart": true,
+        "subtitlesAutoOn": true,
+        "setDefaultVolume": true,
+        "defaultVolumeValue": 100
+      },
+      "topControls": {
+        "enabled": true,
+        "showTitle": true,
+        "showAccountName": true,
+        "accountName": "",
+        "showSocialSharing": true,
+        "showDownloadButton": true,
+        "showExcludingTitleOnDomains": true,
+        "showTitleDuringPlayback": true,
+        "showLogotype": true,
+        "showExcludingAccountNameOnDomains": true,
+        "showAccountNameDuringPlayback": true,
+        "showOpenInNewWindow": true,
+        "showHoverShadow": true,
+        "alwaysVisible": true,
+        "showSolidBackgroundTopControl": true
+      },
+      "bottomControls": {
+        "enabled": true,
+        "showPlaybackControls": true,
+        "showPlayPauseButton": true,
+        "showTime": true,
+        "showRewindForwardButtons": true,
+        "showSettingsButton": true,
+        "showSocialSharingSettings": true,
+        "showVideoQualitySettings": true,
+        "showLanguageSettingsButton": true,
+        "showSubtitlesSettings": true,
+        "showAudioTracksSettings": true,
+        "showPictureInPicture": true,
+        "showTimeline": true,
+        "showAudioControls": true,
+        "showFullscreen": true,
+        "showTranscriptSettings": true,
+        "showCenteredPlayPauseButton": true,
+        "showCastDevices": true,
+        "showPlaybackSpeedSettings": true,
+        "showHoverShadow": true,
+        "alwaysVisible": true,
+        "showSolidBackgroundBottomControl": true
+      },
+      "engagementFeatures": {
+        "enabled": false,
+        "showShoppingCart": false,
+        "showChat": false,
+        "showLiveLikes": false,
+        "openChatOnPlay": false
+      },
+      "accessibilitySettings": {
+        "language": "en"
+      },
+      "playerStyling": {
+        "primaryColor": "#126CFC",
+        "secondaryColor": "#0C306C",
+        "playerFont": "Poppins",
+        "playerBackgroundOpacity": "50"
+      },
+      "restrictedContainer": {
+        "restrictedContainerBackground": {
+          "enabled": true
+        }
+      },
+      "playCover": {
+        "customPlayButtonIcon": true,
+        "showVideoLength": true
+      },
+      "advertisementSettings": {
+        "enabled": true
+      },
+      "additionalSettings": {
+        "noCookies": true,
+        "disableAnalytics": true,
+        "noChatCookies": true,
+        "noSchemaData": true,
+        "aiTagging": true,
+        "autoSizing": true,
+        "stickyVideoPlayer": true
+      }
+    },
+    {
+      "type": "mobile",
+      "playbackOptions": {
+        "autostart": true,
+        "replay": true,
+        "maintainProportions": true,
+        "softFullscreen": true,
+        "muteAtStart": true,
+        "subtitlesAutoOn": true,
+        "setDefaultVolume": true
+      },
+      "topControls": {
+        "enabled": true,
+        "showTitle": true,
+        "showAccountName": true,
+        "accountName": "",
+        "showSocialSharing": true,
+        "showDownloadButton": true,
+        "showExcludingTitleOnDomains": true,
+        "showTitleDuringPlayback": true,
+        "showLogotype": true,
+        "showExcludingAccountNameOnDomains": true,
+        "showAccountNameDuringPlayback": true,
+        "showOpenInNewWindow": true,
+        "showHoverShadow": true,
+        "alwaysVisible": true,
+        "showSolidBackgroundTopControl": true
+      },
+      "bottomControls": {
+        "enabled": true,
+        "showPlaybackControls": true,
+        "showPlayPauseButton": true,
+        "showTime": true,
+        "showRewindForwardButtons": true,
+        "showSettingsButton": true,
+        "showSocialSharingSettings": true,
+        "showVideoQualitySettings": true,
+        "showLanguageSettingsButton": true,
+        "showSubtitlesSettings": true,
+        "showAudioTracksSettings": true,
+        "showPictureInPicture": true,
+        "showTimeline": true,
+        "showAudioControls": true,
+        "showFullscreen": true,
+        "showCenteredPlayPauseButton": true,
+        "showCastDevices": true,
+        "showTranscriptSettings": true,
+        "showPlaybackSpeedSettings": true,
+        "showFullscreenUsingSoftbox": true,
+        "showHoverShadow": true,
+        "alwaysVisible": true,
+        "showSolidBackgroundBottomControl": true
+      },
+      "engagementFeatures": {
+        "enabled": false,
+        "showShoppingCart": false,
+        "showChat": false,
+        "showLiveLikes": false,
+        "openChatOnPlay": false
+      },
+      "accessibilitySettings": {
+        "language": "en"
+      },
+      "playerStyling": {
+        "primaryColor": "#126CFC",
+        "secondaryColor": "#0C306C",
+        "playerFont": "Poppins"
+      },
+      "playCover": {
+        "customPlayButtonIcon": true,
+        "showVideoLength": true
+      },
+      "restrictedContainer": {
+        "restrictedContainerBackground": {
+          "enabled": true
+        }
+      },
+      "advertisementSettings": {
+        "enabled": true
+      },
+      "additionalSettings": {
+        "noCookies": true,
+        "disableAnalytics": true,
+        "noChatCookies": true,
+        "noSchemaData": true,
+        "aiTagging": true,
+        "autoSizing": true,
+        "stickyVideoPlayer": true
+      }
+    }
+  ]
+}
