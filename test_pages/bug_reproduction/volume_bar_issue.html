@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>QPlayer — Production vs Beta</title>
+  <title>QPlayer — Embed and Size Comparison</title>
 
   <style>
     body {
@@ -21,7 +21,29 @@
       line-height: 1.5;
     }
 
-    /* Preserve the side-by-side layout on narrow screens. */
+    nav a {
+      display: inline-block;
+      padding: 10px 16px;
+      margin-right: 8px;
+      background: #174f85;
+      color: white;
+    }
+
+    nav a[aria-current="page"] {
+      background: #6a3583;
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+    }
+
+    select {
+      padding: 8px;
+      font: inherit;
+    }
+
     .scroll-container {
       overflow-x: auto;
     }
@@ -30,155 +52,222 @@
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 20px;
-
-      /* Each player is 340px wide. Increase this to test larger players. */
-      width: 700px;
-      margin: 0 auto;
+      width: 820px;
+      margin: auto;
     }
 
-    .player-heading {
+    section {
+      min-width: 0;
+    }
+
+    h2 {
       margin: 0;
-      padding: 14px;
+      padding: 12px;
+      background: #174f85;
       color: white;
       font-size: 20px;
     }
 
-    .production {
-      background: #174f85;
+    .player-slot {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #101820;
     }
 
-    .beta {
-      background: #6a3583;
-    }
-
-    iframe {
+    .legacy-embed,
+    qplayer-embed {
       display: block;
       width: 100%;
-      aspect-ratio: 16 / 9;
-      border: 0;
-      background: #101820;
+      height: 100%;
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>QPlayer — Production vs Beta</h1>
+    <h1>QPlayer comparison — <span id="build"></span></h1>
 
     <p>
-      <strong>Left: production. Right: beta.</strong>
-      Both players use the same two-minute video and the same
-      everything-ON preset. Autoplay and repeat are disabled.
+      Left: legacy 1.0 div embed.
+      Right: modern 1.1 web component.
+      Both use the same video, preset and player width.
     </p>
 
+    <nav>
+      <a id="production-link" href="?channel=production">
+        Test production
+      </a>
+
+      <a id="beta-link" href="?channel=beta">
+        Test beta
+      </a>
+    </nav>
+
     <p>
-      Perform the same actions on each player to compare behavior.
-      On smaller screens, scroll horizontally to see both players.
+      Switching builds reloads both players and keeps the selected width.
     </p>
+
+    <label for="size">Width of each player</label>
+
+    <select id="size">
+      <option value="400">400px</option>
+      <option value="500">500px</option>
+    </select>
+
+    <p id="status" role="status">Loading players…</p>
   </header>
 
   <div class="scroll-container">
-    <main class="players">
+    <main class="players" id="players">
 
-      <!-- LEFT PLAYER: PRODUCTION -->
+      <!-- LEFT: LEGACY 1.0 DIV EMBED -->
       <section>
-        <h2 class="player-heading production">Production</h2>
+        <h2 id="legacy-label">1.0 — Legacy div</h2>
 
-        <iframe
-          title="Production QPlayer"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-          allowfullscreen
-          srcdoc="
-            <!DOCTYPE html>
-            <html lang='en'>
-              <head>
-                <meta charset='UTF-8'>
-                <style>
-                  html, body {
-                    margin: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: #101820;
-                  }
-
-                  qplayer-embed {
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                  }
-                </style>
-              </head>
-
-              <body>
-                <qplayer-embed
-                  title='Production player'
-                  data-qplayer-id='comparison-production'
-                  data-qplayer-account-id='AccNqtD2CsWD0Su3cmykHVzZQ'
-                  data-qplayer-media-id='293cc958-31a3-4119-9cfa-8779cf97af93'
-                  data-qplayer-preset-id='875ec0da-13d8-49c9-b97b-dc8f3e03fcb3'
-                  data-qplayer-auto-sizing='true'
-                  data-qplayer-autoplay='false'
-                  data-qplayer-repeat='false'
-                  data-qplayer-analytics='off'
-                ></qplayer-embed>
-
-                <script src='https://play2.qbrick.com/qplayer/qplayer.min.js'></script>
-              </body>
-            </html>
-          "
-        ></iframe>
+        <div class="player-slot">
+          <div
+            class="legacy-embed"
+            title="Legacy 1.0 player"
+            data-qplayer-id="legacy-player"
+            data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+            data-qplayer-media-id="293cc958-31a3-4119-9cfa-8779cf97af93"
+            data-qplayer-preset-id="875ec0da-13d8-49c9-b97b-dc8f3e03fcb3"
+            data-qplayer-inline="on"
+            data-qplayer-auto-sizing="true"
+            data-qplayer-autoplay="false"
+            data-qplayer-repeat="false"
+            data-qplayer-analytics="off"
+          ></div>
+        </div>
       </section>
 
-      <!-- RIGHT PLAYER: BETA -->
+      <!-- RIGHT: MODERN 1.1 WEB COMPONENT -->
       <section>
-        <h2 class="player-heading beta">Beta</h2>
+        <h2 id="modern-label">1.1 — Web component</h2>
 
-        <iframe
-          title="Beta QPlayer"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-          allowfullscreen
-          srcdoc="
-            <!DOCTYPE html>
-            <html lang='en'>
-              <head>
-                <meta charset='UTF-8'>
-                <style>
-                  html, body {
-                    margin: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: #101820;
-                  }
-
-                  qplayer-embed {
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                  }
-                </style>
-              </head>
-
-              <body>
-                <qplayer-embed
-                  title='Beta player'
-                  data-qplayer-id='comparison-beta'
-                  data-qplayer-account-id='AccNqtD2CsWD0Su3cmykHVzZQ'
-                  data-qplayer-media-id='293cc958-31a3-4119-9cfa-8779cf97af93'
-                  data-qplayer-preset-id='875ec0da-13d8-49c9-b97b-dc8f3e03fcb3'
-                  data-qplayer-auto-sizing='true'
-                  data-qplayer-autoplay='false'
-                  data-qplayer-repeat='false'
-                  data-qplayer-analytics='off'
-                ></qplayer-embed>
-
-                <script src='https://play2.qbrick.com/qplayer-beta/qplayer.min.js'></script>
-              </body>
-            </html>
-          "
-        ></iframe>
+        <div class="player-slot">
+          <qplayer-embed
+            title="Modern 1.1 player"
+            data-qplayer-id="modern-player"
+            data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+            data-qplayer-media-id="293cc958-31a3-4119-9cfa-8779cf97af93"
+            data-qplayer-preset-id="875ec0da-13d8-49c9-b97b-dc8f3e03fcb3"
+            data-qplayer-auto-sizing="true"
+            data-qplayer-autoplay="false"
+            data-qplayer-repeat="false"
+            data-qplayer-analytics="off"
+          ></qplayer-embed>
+        </div>
       </section>
 
     </main>
   </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+
+    const channel = params.get("channel") === "production"
+      ? "production"
+      : "beta";
+
+    const playerPath = channel === "production"
+      ? "qplayer"
+      : "qplayer-beta";
+
+    const status = document.getElementById("status");
+    const sizeSelect = document.getElementById("size");
+
+    document.getElementById("build").textContent =
+      channel.toUpperCase();
+
+    document.getElementById("legacy-label").textContent =
+      "1.0 — Legacy div — " + channel;
+
+    document.getElementById("modern-label").textContent =
+      "1.1 — Web component — " + channel;
+
+    document.querySelector(".legacy-embed").setAttribute(
+      "data-qplayer-beta",
+      String(channel === "beta")
+    );
+
+    sizeSelect.value = params.get("size") === "500"
+      ? "500"
+      : "400";
+
+    function applySize() {
+      const width = Number(sizeSelect.value);
+
+      // Two equally sized players, separated by a 20px gap.
+      document.getElementById("players").style.width =
+        (width * 2 + 20) + "px";
+
+      for (const build of ["production", "beta"]) {
+        const link = document.getElementById(build + "-link");
+        const url = new URL(location.href);
+
+        url.searchParams.set("channel", build);
+        url.searchParams.set("size", String(width));
+
+        link.href = url.href;
+
+        if (build === channel) {
+          link.setAttribute("aria-current", "page");
+        }
+      }
+
+      const currentUrl = new URL(location.href);
+      currentUrl.searchParams.set("size", String(width));
+
+      history.replaceState(null, "", currentUrl);
+    }
+
+    sizeSelect.addEventListener("change", applySize);
+    applySize();
+
+    // Temporarily detach the modern embed so the legacy loader
+    // does not process it during its scan of the page.
+    const modernPlayer = document.querySelector("qplayer-embed");
+    const modernSlot = modernPlayer.parentElement;
+
+    modernPlayer.remove();
+
+    // Load the selected modern SDK.
+    const sdk = document.createElement("script");
+
+    sdk.src =
+      "https://play2.qbrick.com/" +
+      playerPath +
+      "/qplayer.min.js";
+
+    sdk.onload = function () {
+      // Load the matching legacy loader.
+      const loader = document.createElement("script");
+
+      loader.src =
+        "https://play2.qbrick.com/" +
+        playerPath +
+        "/loader/qplayer-loader.min.js";
+
+      loader.onload = function () {
+        modernSlot.append(modernPlayer);
+
+        status.textContent =
+          "Both embed scripts loaded. Press Play on each player.";
+      };
+
+      loader.onerror = function () {
+        status.textContent = "The legacy loader could not load.";
+      };
+
+      document.head.append(loader);
+    };
+
+    sdk.onerror = function () {
+      status.textContent = "The player SDK could not load.";
+    };
+
+    document.head.append(sdk);
+  </script>
 </body>
 </html>
