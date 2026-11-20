@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qbrick Beta – Story Player QA</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #161616;
+      color: white;
+      font: 16px system-ui, sans-serif;
+    }
+
+    button {
+      padding: 12px 20px;
+      font: inherit;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Story Player – Beta QA</h1>
+  <button id="open" disabled>Åbn afspilleren</button>
+  <p id="status" role="status">Indlæser beta-afspilleren…</p>
+
+  <qplayer-reels-embed
+    data-qplayer-account-id="AccNqtD2CsWD0Su3cmykHVzZQ"
+    data-qplayer-preset-id="QA_BORSEN_STORY_PLAYER"
+  ></qplayer-reels-embed>
+
+  <script>
+    const openButton = document.getElementById("open");
+    const status = document.getElementById("status");
+
+    function openPlayer() {
+      try {
+        window.QplayerReels.openReels({
+          playlistId: "a467a55f-9965-40dd-9285-3ea44a68d6a6",
+          mediaId: "9cc5b7d4-7098-4968-a42d-6889a37e5a17",
+          trigger: openButton
+        });
+        status.textContent = "";
+      } catch (error) {
+        status.textContent = "Kunne ikke åbne afspilleren: " + error.message;
+      }
+    }
+
+    openButton.addEventListener("click", openPlayer);
+
+    const script = document.createElement("script");
+    script.src = "https://play2.qbrick.com/qplayer-beta/qplayer.min.js";
+
+    script.onload = function () {
+      if (typeof window.QplayerReels?.openReels !== "function") {
+        status.textContent = "Beta-bundlen kunne ikke initialisere story-afspilleren.";
+        return;
+      }
+
+      openButton.disabled = false;
+      openPlayer();
+    };
+
+    script.onerror = function () {
+      status.textContent = "Kunne ikke indlæse beta-afspilleren.";
+    };
+
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
